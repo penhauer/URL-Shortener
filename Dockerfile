@@ -9,4 +9,5 @@ COPY ./src ./src
 
 EXPOSE 80
 
-CMD ["python3", "src/main.py"]
+WORKDIR /app/src
+CMD ["gunicorn", "--workers=16", "--bind=0.0.0.0:80", "main:app"]

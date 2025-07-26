@@ -29,7 +29,7 @@ services:
   loadtest:
     image: williamyeh/wrk
     entrypoint: >
-      sh -c "sleep 10 && wrk -t4 -c32 -d30s http://app:80"
+      sh -c "sleep 5 && wrk -t4 -c32 -d60s http://app:80"
     depends_on:
       - app
 

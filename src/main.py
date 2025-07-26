@@ -32,7 +32,3 @@ def handle():
         cur.execute("UPDATE mytable SET value = %s WHERE id = %s;", (s, id_))
     return f"Inserted id={id_} with value={s}\n"
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    print("asdfasdf")
-    app.run(host="0.0.0.0", port=80)
