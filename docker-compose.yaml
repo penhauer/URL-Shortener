@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: mydb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      # test: ["CMD", "pg_isready", "-U", "user"]
+      test: ["CMD", "true"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      DATABASE_URL: postgres://user:pass@db:5432/mydb
+    depends_on:
+      db:
+        condition: service_healthy
+
+  loadtest:
+    image: williamyeh/wrk
+    entrypoint: >
+      sh -c "sleep 10 && wrk -t4 -c32 -d30s http://app:80"
+    depends_on:
+      - app
+
+volumes:
+  db_data:
