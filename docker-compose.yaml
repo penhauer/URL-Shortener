@@ -24,7 +24,7 @@ services:
       - "8080:80"
     environment:
       DATABASE_URL: postgres://user:pass@db:5432/mydb
-      WORKERS: 4
+      WORKERS: 1
     depends_on:
       db:
         condition: service_healthy
@@ -32,7 +32,7 @@ services:
   loadtest:
     image: williamyeh/wrk
     entrypoint: >
-      sh -c "sleep 5 && wrk -t4 -c32 -d60s http://app:80"
+      sh -c "sleep 5 && wrk -t4 -c64 -d30s http://app:80"
     depends_on:
       - app
 
